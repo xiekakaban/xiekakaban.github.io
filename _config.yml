@@ -2,12 +2,12 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://mazhuang.org
+url: xiekekaban.github.io
 date_format: "ordinal"
-title: 码志
-subtitle: "打码改变人生"
-description: "马壮的个人博客"
-keywords: 码志, Zhuang Ma, mzlogin, mazhuang
+title: 时而暴躁的绅士
+subtitle: "天道酬勤"
+description: "阮天波的个人博客"
+keywords: Tianbo_Ruan, Pragram, coding, share
 favicon: /favicon.ico
 timezone: Asia/Shanghai
 encoding: "utf-8"
@@ -16,12 +16,12 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma
-organization: zkh360.com
-organization_url: http://www.zkh360.com
-github_username: mzlogin
-location: Wuhan, China
-email: chumpma@gmail.com
+author: Tianbo Ruan
+organization: Party Member
+organization_url: http://cpc.people.com.cn/
+github_username: xiekakaban
+location: HangZhou, Zhejiang, China
+email: ruantianbo@163.com
 
 # ---------------- #
 #    Navigation    #
