@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: xiekekaban.github.io
+url: https://xiekekaban.github.io
 date_format: "ordinal"
 title: 时而暴躁的绅士
 subtitle: "天道酬勤"
@@ -78,7 +78,7 @@ collections:
         output: true
         permalink: /wiki/:path/
 
-repository: mzlogin/mzlogin.github.io
+repository: xiekakaban/xiekakaban.github.io
 
 # ---------------- #
 #      Comments    #
