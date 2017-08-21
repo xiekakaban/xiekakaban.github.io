@@ -3,5 +3,7 @@ _site/
 *.~vsd
 \#*\#
 *~
+**/.idea
+*iml
 .DS_Store
 Gemfile.lock

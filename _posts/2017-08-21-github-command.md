@@ -4,6 +4,8 @@ date: 2017-08-21 13:14:44
 tags: [github]
 ---
 ----------------------------------------
+## github 命令合集##
+
 1. 关联用户：`$ git config –global user.name “yourName”`
 2. 关联邮箱账号：`$ git config –global user.email “yourEmail”`
 3. 创建新文件夹：`$ mkdir`
