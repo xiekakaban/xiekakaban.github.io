@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          docker开启新的端口 - null
+          nacos中的配置管理源码以及遇见的坑 - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/17/docker开启新的端口/">
+    <link rel="canonical" href="http://example.com/2021/06/24/nacos中的配置管理源码以及遇见的坑/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                              <a class="tag" href="/tags/#nacos" title="nacos">nacos</a>
                             
                         </div>
-                        <h1>docker开启新的端口</h1>
+                        <h1>nacos中的配置管理源码以及遇见的坑</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-17
+                            2021-06-24
                         </span>
                     </div>
                 
@@ -265,17 +265,49 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>刚开始用nginx去做代理，运行时又突然要开放另外一个端口。去映射另外一个服务<br>这个就需要对原有容器映射新的端口</p>
-<p>首先停止容器然后再关闭docker服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker port 18a # 查看原来已开启的端口</span><br><span class="line">docker stop 18a</span><br><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+                <p>配置就不说了吧。加上依赖，然后配置下，要配置在bootstrap.yml中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- nacos 配置中心--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
-<p>然后到主机，/var/lib/docker/containers/18axxxx/ 这个目录下面，其中18xxxx是容器的编号</p>
-<p>修改hostconfig.json 和 config.v2.json 两个文件</p>
-<h5 id="hostconfig-json-修改"><a href="#hostconfig-json-修改" class="headerlink" title="hostconfig.json 修改"></a>hostconfig.json 修改</h5><p>PortBindings新增端口映射</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210617142830292.png" alt="image-20210617142830292"></p>
-<h5 id="修改-config-v2-json"><a href="#修改-config-v2-json" class="headerlink" title="修改 config.v2.json"></a>修改 config.v2.json</h5><p>给 ExposePorts新增</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210617143058364.png" alt="image-20210617143058364"></p>
-<p>网上还有人说要修改 Ports，但我没有修改也是可以的。而且我看之前 Ports也是null。应该不用吧。</p>
+
+<p>上次我们看过了 怎么通过PropertySourceLocator 去获取配置项。<br>现在我们来看看nacos 这边的源码。基本上还是PropertySourceLocator的套路</p>
+<p>spring-cloud-starter-alibaba-nacos-config 包中 找到META-INF/spring.factories 其他先可以不看。针对nacos的配置文件加载主要要看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.cloud.bootstrap.BootstrapConfiguration=\</span><br><span class="line">com.alibaba.cloud.nacos.NacosConfigBootstrapConfiguration</span><br></pre></td></tr></table></figure>
+<p>这边就是我们熟悉的PropertySourceLocator方法<br>看一下 NacosConfigBootstrapConfiguration类，上面NacosConfigProperties，NacosConfigManager是维护这注册到nacos的一些配置项，例如服务器地址。</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624171157052.png" alt="image-20210624171157052"><br>这边可以看到 有个PropertySourceLocator去加载配置项。看里面的locate()方法</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624171541782.png" alt="image-20210624171541782"></p>
+<p>主要关注点是这三个方法第一个是加载共享配置，第二个是加载extension配置，第三方是加载项目配置，贴一下相关的配置</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624174742269.png" alt="image-20210624174742269"></p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624171932783.png" alt="image-20210624171932783"></p>
+<p>配置完后就可以通过@Value或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">applicationContext.getEnvironment().getProperty(&quot;author.name&quot;)</span><br></pre></td></tr></table></figure>
+<p>去访问</p>
+<p>再回到源码，看看nacos是怎么调用的。再调用上面三个方法之前。还有一系列步骤。这边可以看到网上所说的怎么去配置dataId。具体代码逻辑自己看下吧，很简单。</p>
+<p>​    <strong>${prefix}-${spring.profile.active}.${file-extension}</strong></p>
+<ul>
+<li><strong>prefix 默认为 spring.application.name 的值，也可以通过配置项 spring.cloud.nacos.config.prefix来配置。</strong></li>
+<li><strong>spring.profile.active 即为当前环境对应的 profile，详情可以参考 Spring Boot文档。 注意：当 spring.profile.active 为空时，对应的连接符 - 也将不存在，dataId 的拼接格式变成 ${prefix}.${file-extension}</strong></li>
+<li><strong>file-exetension 为配置内容的数据格式，可以通过配置项 spring.cloud.nacos.config.file-extension 来配置。目前只支持 properties 和 yaml 类型</strong></li>
+</ul>
+<p>上面三个方法其实底层还是调用 loadNacosDataIfPresent()。以loadApplicationConfiguration为例</p>
+<p><img src="C:\Users\ruantianbo\AppData\Roaming\Typora\typora-user-images\image-20210624173905586.png" alt="image-20210624173905586"></p>
+<p>这可以看到他会请求多次，一个是dataIdPrefix ，一个是dataIdPrefix.fileExtension，还有一个加上profile的。</p>
+<p>所以如果你再spring中配置了 applicaiton 这个nacos的配置文件，他会去向nacos去请求 application和 applicaiton.properties</p>
+<p>和 applicaiton-dev.properties （如果你没有配置fileExtension那么默认是请求properties）而且后面的配置会覆盖前面的配置项。</p>
+<p>然后看loadNacosDataIfPresent()，一直执行下去</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624174348766.png" alt="image-20210624174348766"></p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624174514643.png" alt="image-20210624174514643"></p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624174538764.png" alt="image-20210624174538764"></p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624174557924.png" alt="image-20210624174557924"></p>
+<p>到这边应该知道了其实最后还是调用http，把参数准备好，然后发送请求</p>
+<p>最后请求类似</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=jdbc.yml&amp;group=DEFAULT_GROUP">http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=jdbc.yml&amp;group=DEFAULT_GROUP</a></p>
+<p>nacos具体http请求可以参考 <a target="_blank" rel="noopener" href="https://nacos.io/zh-cn/docs/open-api.html">Open API 指南 (nacos.io)</a></p>
+<p>源代码很简单。但是我遇见一个很奇葩的问题，我再nacos里面添加了配置。nacos网页已经成功显示配置项。</p>
+<p>但是spring一直获取不到配置。（所以我才去看源码）。一直调试。</p>
+<p>然后用纯Http调用 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST &#x27;http://127.0.0.1:8848/nacos/v1/cs/configs&#x27; -d &#x27;dataId=nacos.example&amp;group=com.alibaba.nacos&amp;content=contentTest&#x27;</span><br><span class="line"></span><br><span class="line">curl -X GET &#x27;http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.example&amp;group=com.alibaba.nacos&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>TMD 还是没有，研究了一天就是没有头绪。然后我看网上说重启下nacos服务。。竟然好了。不太清楚是nacos的问题，还是说是docker的问题，因为我用docker去部署的。之前单机版nacos没有预见过这个问题。</p>
+<p>所以 重启能解决90%的问题。</p>
 
                 
 
@@ -283,13 +315,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/06/18/alibaba/" data-toggle="tooltip" data-placement="top" title="alibaba">&larr; Previous post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2021/06/09/dockerCompose使用/" data-toggle="tooltip" data-placement="top" title="dockerCompose使用">Next post &rarr;</a>
+                            <a href="/2021/06/24/spring中自定义配置源PropertySource/" data-toggle="tooltip" data-placement="top" title="spring中自定义配置源PropertySource">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -339,7 +367,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                          <a class="tag" href="/tags/#nacos" title="nacos">nacos</a>
                         
                     </div>
                 </section>
@@ -514,7 +542,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/17/docker%E5%BC%80%E5%90%AF%E6%96%B0%E7%9A%84%E7%AB%AF%E5%8F%A3/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/06/24/nacos%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%BA%90%E7%A0%81%E4%BB%A5%E5%8F%8A%E9%81%87%E8%A7%81%E7%9A%84%E5%9D%91/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

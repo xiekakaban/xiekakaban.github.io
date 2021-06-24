@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          docker开启新的端口 - null
+          spring中自定义配置源PropertySource - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/17/docker开启新的端口/">
+    <link rel="canonical" href="http://example.com/2021/06/24/spring中自定义配置源PropertySource/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                              <a class="tag" href="/tags/#spring, PropertySource" title="spring, PropertySource">spring, PropertySource</a>
                             
                         </div>
-                        <h1>docker开启新的端口</h1>
+                        <h1>spring中自定义配置源PropertySource</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-17
+                            2021-06-24
                         </span>
                     </div>
                 
@@ -265,17 +265,18 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>刚开始用nginx去做代理，运行时又突然要开放另外一个端口。去映射另外一个服务<br>这个就需要对原有容器映射新的端口</p>
-<p>首先停止容器然后再关闭docker服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker port 18a # 查看原来已开启的端口</span><br><span class="line">docker stop 18a</span><br><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
+                <p>spring中你可以自行编写applicaiton.properties 以及通过@ImportResource来编写配置项。<br>但是如果需要导入其他配置，例如在远程主机上的，这个时候你就需要用PropertySource方法</p>
+<p>第一步，首先需要在META-INFO/spring.factories 中新增配置类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.cloud.bootstrap.BootstrapConfiguration=\</span><br><span class="line">com.sfzl.MyConfigBootstrapConfiguration</span><br></pre></td></tr></table></figure>
+<p>其中MyConfigBootstrapConfiguration是一个配置类。很多人会问，配置类为什么要写在这边，Spring不是会自动搜索么。放在这边是因为这个配置类会优先于其他配置类加载。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class MyConfigBootstrapConfiguration &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public MyPropertySourceLocator myPropertySourceLocator()&#123;</span><br><span class="line">        return new MyPropertySourceLocator();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的MyPropertySourceLocator，名字带有Locator说明是为了怎么找到配置。locate()方法<br>主要会在这边初始化好一个Map文件，存放各种配置，然后传递给PropertySource实现类，用于通过name去获取真正的属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class MyConfigPropertySourceLocator implements PropertySourceLocator &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public PropertySource&lt;?&gt; locate(Environment environment) &#123;</span><br><span class="line">        Map&lt;String,String&gt; myconfig = new HashMap&lt;&gt;();</span><br><span class="line">        myconfig.put(&quot;configMessage&quot;,&quot;tianyeling&quot;);</span><br><span class="line">        MyPropertySource myPropertySource = new MyPropertySource(&quot;myPropertySource&quot;,myconfig);</span><br><span class="line">        return myPropertySource;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>然后到主机，/var/lib/docker/containers/18axxxx/ 这个目录下面，其中18xxxx是容器的编号</p>
-<p>修改hostconfig.json 和 config.v2.json 两个文件</p>
-<h5 id="hostconfig-json-修改"><a href="#hostconfig-json-修改" class="headerlink" title="hostconfig.json 修改"></a>hostconfig.json 修改</h5><p>PortBindings新增端口映射</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210617142830292.png" alt="image-20210617142830292"></p>
-<h5 id="修改-config-v2-json"><a href="#修改-config-v2-json" class="headerlink" title="修改 config.v2.json"></a>修改 config.v2.json</h5><p>给 ExposePorts新增</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210617143058364.png" alt="image-20210617143058364"></p>
-<p>网上还有人说要修改 Ports，但我没有修改也是可以的。而且我看之前 Ports也是null。应该不用吧。</p>
+<p>其中MyPropertySource实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class MyPropertySource extends EnumerablePropertySource&lt;Map&lt;String,String&gt;&gt; &#123;</span><br><span class="line">    public MyPropertySource(String name, Map&lt;String,String&gt; source) &#123;</span><br><span class="line">        super(name, source);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public String[] getPropertyNames() &#123;</span><br><span class="line">        return source.keySet().toArray(new String[source.size()]);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public Object getProperty(String name) &#123;</span><br><span class="line">        return source.get(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要继承自EnumerablePropertySource类，实现了 getPropertyNames(),getProperty(); 其中getProperty方法就是真正通过名字去找到配置项。</p>
+<p>具体也可以参考nacos中配置查找的流程。</p>
 
                 
 
@@ -284,12 +285,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/06/18/alibaba/" data-toggle="tooltip" data-placement="top" title="alibaba">&larr; Previous post</a>
+                            <a href="/2021/06/24/nacos中的配置管理源码以及遇见的坑/" data-toggle="tooltip" data-placement="top" title="nacos中的配置管理源码以及遇见的坑">&larr; Previous post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2021/06/09/dockerCompose使用/" data-toggle="tooltip" data-placement="top" title="dockerCompose使用">Next post &rarr;</a>
+                            <a href="/2021/06/22/maven下载源码/" data-toggle="tooltip" data-placement="top" title="maven下载源码">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -339,7 +340,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                          <a class="tag" href="/tags/#spring, PropertySource" title="spring, PropertySource">spring, PropertySource</a>
                         
                     </div>
                 </section>
@@ -514,7 +515,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/17/docker%E5%BC%80%E5%90%AF%E6%96%B0%E7%9A%84%E7%AB%AF%E5%8F%A3/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/06/24/spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%BA%90PropertySource/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

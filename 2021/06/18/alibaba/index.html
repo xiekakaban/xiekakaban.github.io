@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          docker开启新的端口 - null
+          alibaba - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/17/docker开启新的端口/">
+    <link rel="canonical" href="http://example.com/2021/06/18/alibaba/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,12 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#docker" title="docker">docker</a>
-                            
                         </div>
-                        <h1>docker开启新的端口</h1>
+                        <h1>alibaba</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-17
+                            2021-06-18
                         </span>
                     </div>
                 
@@ -265,18 +263,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>刚开始用nginx去做代理，运行时又突然要开放另外一个端口。去映射另外一个服务<br>这个就需要对原有容器映射新的端口</p>
-<p>首先停止容器然后再关闭docker服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker port 18a # 查看原来已开启的端口</span><br><span class="line">docker stop 18a</span><br><span class="line">systemctl stop docker</span><br></pre></td></tr></table></figure>
-
-<p>然后到主机，/var/lib/docker/containers/18axxxx/ 这个目录下面，其中18xxxx是容器的编号</p>
-<p>修改hostconfig.json 和 config.v2.json 两个文件</p>
-<h5 id="hostconfig-json-修改"><a href="#hostconfig-json-修改" class="headerlink" title="hostconfig.json 修改"></a>hostconfig.json 修改</h5><p>PortBindings新增端口映射</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210617142830292.png" alt="image-20210617142830292"></p>
-<h5 id="修改-config-v2-json"><a href="#修改-config-v2-json" class="headerlink" title="修改 config.v2.json"></a>修改 config.v2.json</h5><p>给 ExposePorts新增</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210617143058364.png" alt="image-20210617143058364"></p>
-<p>网上还有人说要修改 Ports，但我没有修改也是可以的。而且我看之前 Ports也是null。应该不用吧。</p>
-
+                
                 
 
                 <hr>
@@ -284,12 +271,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/06/18/alibaba/" data-toggle="tooltip" data-placement="top" title="alibaba">&larr; Previous post</a>
+                            <a href="/2021/06/18/从零开始用springcloud-alibaba-一/" data-toggle="tooltip" data-placement="top" title="从零开始用springcloud alibaba(一)">&larr; Previous post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2021/06/09/dockerCompose使用/" data-toggle="tooltip" data-placement="top" title="dockerCompose使用">Next post &rarr;</a>
+                            <a href="/2021/06/17/docker开启新的端口/" data-toggle="tooltip" data-placement="top" title="docker开启新的端口">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -339,8 +326,6 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
-                        
                     </div>
                 </section>
                 
@@ -514,7 +499,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/17/docker%E5%BC%80%E5%90%AF%E6%96%B0%E7%9A%84%E7%AB%AF%E5%8F%A3/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/06/18/alibaba/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
