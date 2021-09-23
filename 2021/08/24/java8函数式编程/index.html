@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          dockerCompose使用 - null
+          java8函数式编程 - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/09/dockerCompose使用/">
+    <link rel="canonical" href="http://example.com/2021/08/24/java8函数式编程/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                              <a class="tag" href="/tags/#函数式编程" title="函数式编程">函数式编程</a>
                             
                         </div>
-                        <h1>dockerCompose使用</h1>
+                        <h1>java8函数式编程</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-09
+                            2021-08-24
                         </span>
                     </div>
                 
@@ -265,21 +265,25 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>什么是dockerCompose感觉类似于java中的maven自动编译工具，吧你需要的服务下载下来并启动</p>
-<p>首先是安装</p>
-<p><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</code></p>
-<p>其中的1.29.1 按照自己的需求去改</p>
-<p>设置可执行权限并添加软连接</p>
-<p><code>sudo chmod +x /usr/local/bin/docker-compose</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br></pre></td></tr></table></figure>
+                <p>如果java8 之前要开启一个线程你可能需要</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new Thread(new Runnable()&#123;</span><br><span class="line">	@Overide</span><br><span class="line">	public void run()&#123;</span><br><span class="line">			xxxxx</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-<p>执行docker-compose –version检查下</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210609170413745.png" alt="image-20210609170413745"></p>
-<p>执行docker-compose<br><code>docker-compose -f docker-compose-env.yml up –d</code></p>
+<p>这样很大部分其实都是模板。跟业务逻辑没啥关系。<br>java8 就引入了lamda表达式<br>要记住一点。lamda表达式要关注他的输入以及输出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package org.example.lamda;</span><br><span class="line"></span><br><span class="line">import java.util.function.Function;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: TODO</span><br><span class="line"> * @author: rtb</span><br><span class="line"> * @data : 2021/8/24 20:02</span><br><span class="line"> */</span><br><span class="line">@FunctionalInterface</span><br><span class="line">interface MyInterface&#123;</span><br><span class="line">    String format(int i);</span><br><span class="line">&#125;</span><br><span class="line">public class MyLamda &#123;</span><br><span class="line">    public String formatPrint(MyInterface interface1,Integer i)&#123;</span><br><span class="line">        return interface1.format(i);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        MyLamda myLamda = new MyLamda();</span><br><span class="line">        System.out.println( myLamda.formatPrint(i-&gt; &quot;人民币&quot; + i + &quot;元&quot;,10));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出- 人名币10元</p>
+<p>其中</p>
+<figure class="highlight plaintext"><figcaption><span>"人民币" + i + "元"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">表示输入的是 i 输出的是&quot;人民币&quot; + i + &quot;元&quot;</span><br><span class="line">相当于</span><br></pre></td></tr></table></figure>
+<pre><code>int i -&gt; return &quot;人民币&quot; + i + &quot;元&quot;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">再进一步是不是能够把这个接口也取消掉。因为我们只需要关注输入和输出。接口名其实没啥用</span><br><span class="line">java8引入了Function用来表示函数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>public class MyLamda {<br>    public String formatPrint(Function&lt;Integer,String&gt; moneyFormat,Integer i){<br>        return (moneyFormat.apply(i));<br>    }</p>
+<pre><code>public static void main(String[] args)&#123;
+    MyLamda myLamda = new MyLamda();
+    System.out.println(myLamda.formatPrint(i -&gt; &quot;人民币&quot; + i + &quot;元&quot;, 10));
+&#125;
+</code></pre>
+<p>}</p>
+<p>```<br>也可以正常输出。Function&lt;Integer,String&gt; 第一个参数表示输入。第二个参数表示输出。<br>除了Function还有 Predicate输入一个参数，输出一个boolean值，Comsummer输入一个参数，没有输出，表示消费。</p>
 
                 
 
@@ -288,12 +292,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/06/17/docker开启新的端口/" data-toggle="tooltip" data-placement="top" title="docker开启新的端口">&larr; Previous post</a>
+                            <a href="/2021/09/22/nexus创建公司私有仓库/" data-toggle="tooltip" data-placement="top" title="nexus创建公司私有仓库">&larr; Previous post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2021/06/09/docker安装及常用命令/" data-toggle="tooltip" data-placement="top" title="docker安装及常用命令">Next post &rarr;</a>
+                            <a href="/2021/08/06/spring-profile-active配合maven使用/" data-toggle="tooltip" data-placement="top" title="spring.profile.active配合maven使用">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -343,7 +347,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                          <a class="tag" href="/tags/#函数式编程" title="函数式编程">函数式编程</a>
                         
                     </div>
                 </section>
@@ -518,7 +522,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/09/dockerCompose%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/08/24/java8%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

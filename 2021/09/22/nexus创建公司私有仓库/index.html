@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          dockerCompose使用 - null
+          nexus创建公司私有仓库 - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/09/dockerCompose使用/">
+    <link rel="canonical" href="http://example.com/2021/09/22/nexus创建公司私有仓库/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                              <a class="tag" href="/tags/#nexus,maven" title="nexus,maven">nexus,maven</a>
                             
                         </div>
-                        <h1>dockerCompose使用</h1>
+                        <h1>nexus创建公司私有仓库</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-09
+                            2021-09-22
                         </span>
                     </div>
                 
@@ -265,21 +265,42 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>什么是dockerCompose感觉类似于java中的maven自动编译工具，吧你需要的服务下载下来并启动</p>
-<p>首先是安装</p>
-<p><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</code></p>
-<p>其中的1.29.1 按照自己的需求去改</p>
-<p>设置可执行权限并添加软连接</p>
-<p><code>sudo chmod +x /usr/local/bin/docker-compose</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>执行docker-compose –version检查下</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210609170413745.png" alt="image-20210609170413745"></p>
-<p>执行docker-compose<br><code>docker-compose -f docker-compose-env.yml up –d</code></p>
+                <p>主要参考这篇文章<br><a target="_blank" rel="noopener" href="https://www.hangge.com/blog/cache/detail_2844.html">https://www.hangge.com/blog/cache/detail_2844.html</a></p>
+<h2 id="nexus安装和配置"><a href="#nexus安装和配置" class="headerlink" title="nexus安装和配置"></a>nexus安装和配置</h2><p>首先从 <a target="_blank" rel="noopener" href="https://www.sonatype.com/products/repository-oss">https://www.sonatype.com/products/repository-oss</a> 下载 nexus<br>linux 下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf nexus-3.34.0-01-unix.tar.gz -C ../software/</span><br></pre></td></tr></table></figure>
+<p>然后修改配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim etc/nexus-default.properties</span><br></pre></td></tr></table></figure>
+<p>把其中的port修改为你想要的端口<br>开启nexux服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd bin/</span><br><span class="line">./nexus start</span><br></pre></td></tr></table></figure>
+<p>可以访问nexus页面 127.0.0.1:10291</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210922204143620.png" alt="image-20210922204143620"></p>
+<p>点击左上角的设置按钮。设置仓库</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210922203937093.png" alt="image-20210922203937093"></p>
+<p>这边有一个type栏。</p>
+<ul>
+<li><p><strong>group</strong>：这是一个仓库聚合的概念，用户仓库地址选择 <strong>Group</strong> 的地址，即可访问 <strong>Group</strong> 中配置的，用于方便开发人员自己设定的仓库。<strong>maven-public</strong> 就是一个 <strong>Group</strong> 类型的仓库，内部设置了多个仓库，访问顺序取决于配置顺序，<strong>3.x</strong> 默认为 <strong>Releases</strong>、<strong>Snapshots</strong>、<strong>Central</strong>，当然你也可以自己设置。</p>
+</li>
+<li><p><strong>hosted</strong>：私有仓库，内部项目的发布仓库，专门用来存储我们自己生成的 <strong>jar</strong> 文件</p>
+</li>
+<li><p><strong>snapshots</strong>：本地项目的快照仓库</p>
+</li>
+<li><p><strong>releases</strong>： 本地项目发布的正式版本</p>
+</li>
+<li><p><strong>proxy</strong>：代理类型，从远程中央仓库中寻找数据的仓库（可以点击对应的仓库的 <strong>Configuration</strong> 页签下 <strong>Remote Storage</strong> 属性的值即被代理的远程仓库的路径），如可配置阿里云 <strong>maven</strong> 仓库</p>
+</li>
+<li><p><strong>central</strong>：中央仓库</p>
+</li>
+</ul>
+<p>我们先来创建一个aliyun</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210922203655960.png" alt="image-20210922203655960"></p>
+<p>设置完成后设置maven-public 这个主要是对外提供服务的。</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210922204319379.png" alt="image-20210922204319379"></p>
+<p>这边可以设置他们的优先级。我把aliyun-maven设置最高</p>
+<p>到这里naxus基本设置好了。现在我们去设置本地的maven</p>
+<h2 id="maven-Settings-xml-设置"><a href="#maven-Settings-xml-设置" class="headerlink" title="maven Settings.xml 设置"></a>maven Settings.xml 设置</h2><p>设置mirror</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210922204837306.png" alt="image-20210922204837306"></p>
+<p>额外一条命令直接把第三方jar包安装到私有仓库</p>
+<p>mvn deploy:deploy-file -DgroupId=com.ebiz.ssi -DartifactId=ebiz-ssi -Dversion=1.1 -Dpackaging=jar -Dfile=D:\apache-tomcat-7.0.14\wtpwebapps\pahfywServer\WEB-INF\lib\ebiz-ssi-1.1.jar -Durl=<a target="_blank" rel="noopener" href="http://172.16.36.57:8081/repository/3rd-party-releases/">http://172.16.36.57:8081/repository/3rd-party-releases/</a> -DrepositoryId=3rd-party-releases </p>
 
                 
 
@@ -287,13 +308,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/06/17/docker开启新的端口/" data-toggle="tooltip" data-placement="top" title="docker开启新的端口">&larr; Previous post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2021/06/09/docker安装及常用命令/" data-toggle="tooltip" data-placement="top" title="docker安装及常用命令">Next post &rarr;</a>
+                            <a href="/2021/08/24/java8函数式编程/" data-toggle="tooltip" data-placement="top" title="java8函数式编程">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -343,7 +360,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                          <a class="tag" href="/tags/#nexus,maven" title="nexus,maven">nexus,maven</a>
                         
                     </div>
                 </section>
@@ -518,7 +535,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/09/dockerCompose%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/09/22/nexus%E5%88%9B%E5%BB%BA%E5%85%AC%E5%8F%B8%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

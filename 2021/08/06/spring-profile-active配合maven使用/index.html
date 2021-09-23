@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          dockerCompose使用 - null
+          spring.profile.active配合maven使用 - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/09/dockerCompose使用/">
+    <link rel="canonical" href="http://example.com/2021/08/06/spring-profile-active配合maven使用/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                              <a class="tag" href="/tags/#spring.profile.active" title="spring.profile.active">spring.profile.active</a>
                             
                         </div>
-                        <h1>dockerCompose使用</h1>
+                        <h1>spring.profile.active配合maven使用</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-09
+                            2021-08-06
                         </span>
                     </div>
                 
@@ -265,21 +265,16 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>什么是dockerCompose感觉类似于java中的maven自动编译工具，吧你需要的服务下载下来并启动</p>
-<p>首先是安装</p>
-<p><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</code></p>
-<p>其中的1.29.1 按照自己的需求去改</p>
-<p>设置可执行权限并添加软连接</p>
-<p><code>sudo chmod +x /usr/local/bin/docker-compose</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br></pre></td></tr></table></figure>
+                <p>多环境下可能本地使用的是dev环境，线上打包需要用prod环境<br>因此可以通过spring.profiles.active 去配置</p>
+<p>pom.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;profiles&gt;</span><br><span class="line">    &lt;!-- 本地环境 --&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line">        &lt;activation&gt;</span><br><span class="line">            &lt;!-- 默认激活dev --&gt;</span><br><span class="line">            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">        &lt;/activation&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profile.active&gt;dev&lt;/profile.active&gt;</span><br><span class="line">            &lt;jar.name&gt;xxxxx&lt;/jar.name&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">    &lt;!-- 生产环境 --&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;pro&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profile.active&gt;pro&lt;/profile.active&gt;</span><br><span class="line">            &lt;jar.name&gt;xxxxx&lt;/jar.name&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">&lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
 
+<p>在spring配置文件中配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  profiles:</span><br><span class="line">    active: @profile.active@</span><br></pre></td></tr></table></figure>
 
+<p>但是这边比较坑的是，有的时候并没有生效.那时因为没有配置resource<br>添加下面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">            &lt;resource&gt;</span><br><span class="line">                &lt;directory&gt;src/main/resources&lt;/directory&gt;</span><br><span class="line">                &lt;!--先排除所有的配置文件--&gt;</span><br><span class="line">                &lt;excludes&gt;</span><br><span class="line">                    &lt;exclude&gt;bootstrap*.yml&lt;/exclude&gt;</span><br><span class="line">                &lt;/excludes&gt;</span><br><span class="line">            &lt;/resource&gt;</span><br><span class="line">            &lt;resource&gt;</span><br><span class="line">                &lt;directory&gt;src/main/resources&lt;/directory&gt;</span><br><span class="line">                &lt;!--引入所需环境的配置文件--&gt;</span><br><span class="line">                &lt;filtering&gt;true&lt;/filtering&gt;</span><br><span class="line">                &lt;includes&gt;</span><br><span class="line">                    &lt;include&gt;bootstrap.yml&lt;/include&gt;</span><br><span class="line">                    &lt;include&gt;bootstrap-$&#123;profile.active&#125;.yml&lt;/include&gt;</span><br><span class="line">                &lt;/includes&gt;</span><br><span class="line">            &lt;/resource&gt;</span><br><span class="line">        &lt;/resources&gt;</span><br></pre></td></tr></table></figure>
 
-
-
-<p>执行docker-compose –version检查下</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210609170413745.png" alt="image-20210609170413745"></p>
-<p>执行docker-compose<br><code>docker-compose -f docker-compose-env.yml up –d</code></p>
 
                 
 
@@ -288,12 +283,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/06/17/docker开启新的端口/" data-toggle="tooltip" data-placement="top" title="docker开启新的端口">&larr; Previous post</a>
+                            <a href="/2021/08/24/java8函数式编程/" data-toggle="tooltip" data-placement="top" title="java8函数式编程">&larr; Previous post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2021/06/09/docker安装及常用命令/" data-toggle="tooltip" data-placement="top" title="docker安装及常用命令">Next post &rarr;</a>
+                            <a href="/2021/08/04/seata初次使用/" data-toggle="tooltip" data-placement="top" title="seata初次使用">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -343,7 +338,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                          <a class="tag" href="/tags/#spring.profile.active" title="spring.profile.active">spring.profile.active</a>
                         
                     </div>
                 </section>
@@ -518,7 +513,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/09/dockerCompose%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/08/06/spring-profile-active%E9%85%8D%E5%90%88maven%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          dockerCompose使用 - null
+          seata初次使用 - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/09/dockerCompose使用/">
+    <link rel="canonical" href="http://example.com/2021/08/04/seata初次使用/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                              <a class="tag" href="/tags/#seata" title="seata">seata</a>
                             
                         </div>
-                        <h1>dockerCompose使用</h1>
+                        <h1>seata初次使用</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-09
+                            2021-08-04
                         </span>
                     </div>
                 
@@ -265,22 +265,20 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>什么是dockerCompose感觉类似于java中的maven自动编译工具，吧你需要的服务下载下来并启动</p>
-<p>首先是安装</p>
-<p><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</code></p>
-<p>其中的1.29.1 按照自己的需求去改</p>
-<p>设置可执行权限并添加软连接</p>
-<p><code>sudo chmod +x /usr/local/bin/docker-compose</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br></pre></td></tr></table></figure>
+                <p>先去下载<br><a target="_blank" rel="noopener" href="https://github.com/seata/seata/releases">https://github.com/seata/seata/releases</a></p>
+<p>修改conf/store.conf</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210804135118721.png" alt="image-20210804135118721"></p>
+<p>修改 注册中心</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210804135225497.png" alt="image-20210804135225497"></p>
+<p>创建表<br><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/seata/seata/develop/script/server/db/mysql.sql">https://raw.githubusercontent.com/seata/seata/develop/script/server/db/mysql.sql</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- -------------------------------- The script used when storeMode is &#x27;db&#x27; --------------------------------</span></span><br><span class="line"><span class="comment">-- the table to store GlobalSession data</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> `global_table`</span><br><span class="line">(</span><br><span class="line">    `xid`                       <span class="type">VARCHAR</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    `transaction_id`            <span class="type">BIGINT</span>,</span><br><span class="line">    `status`                    TINYINT      <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    `application_id`            <span class="type">VARCHAR</span>(<span class="number">32</span>),</span><br><span class="line">    `transaction_service_group` <span class="type">VARCHAR</span>(<span class="number">32</span>),</span><br><span class="line">    `transaction_name`          <span class="type">VARCHAR</span>(<span class="number">128</span>),</span><br><span class="line">    `timeout`                   <span class="type">INT</span>,</span><br><span class="line">    `begin_time`                <span class="type">BIGINT</span>,</span><br><span class="line">    `application_data`          <span class="type">VARCHAR</span>(<span class="number">2000</span>),</span><br><span class="line">    `gmt_create`                DATETIME,</span><br><span class="line">    `gmt_modified`              DATETIME,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY (`xid`),</span><br><span class="line">    KEY `idx_gmt_modified_status` (`gmt_modified`, `status`),</span><br><span class="line">    KEY `idx_transaction_id` (`transaction_id`)</span><br><span class="line">) ENGINE <span class="operator">=</span> InnoDB</span><br><span class="line">  <span class="keyword">DEFAULT</span> CHARSET <span class="operator">=</span> utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- the table to store BranchSession data</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> `branch_table`</span><br><span class="line">(</span><br><span class="line">    `branch_id`         <span class="type">BIGINT</span>       <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    `xid`               <span class="type">VARCHAR</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    `transaction_id`    <span class="type">BIGINT</span>,</span><br><span class="line">    `resource_group_id` <span class="type">VARCHAR</span>(<span class="number">32</span>),</span><br><span class="line">    `resource_id`       <span class="type">VARCHAR</span>(<span class="number">256</span>),</span><br><span class="line">    `branch_type`       <span class="type">VARCHAR</span>(<span class="number">8</span>),</span><br><span class="line">    `status`            TINYINT,</span><br><span class="line">    `client_id`         <span class="type">VARCHAR</span>(<span class="number">64</span>),</span><br><span class="line">    `application_data`  <span class="type">VARCHAR</span>(<span class="number">2000</span>),</span><br><span class="line">    `gmt_create`        DATETIME(<span class="number">6</span>),</span><br><span class="line">    `gmt_modified`      DATETIME(<span class="number">6</span>),</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY (`branch_id`),</span><br><span class="line">    KEY `idx_xid` (`xid`)</span><br><span class="line">) ENGINE <span class="operator">=</span> InnoDB</span><br><span class="line">  <span class="keyword">DEFAULT</span> CHARSET <span class="operator">=</span> utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- the table to store lock data</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> `lock_table`</span><br><span class="line">(</span><br><span class="line">    `row_key`        <span class="type">VARCHAR</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    `xid`            <span class="type">VARCHAR</span>(<span class="number">128</span>),</span><br><span class="line">    `transaction_id` <span class="type">BIGINT</span>,</span><br><span class="line">    `branch_id`      <span class="type">BIGINT</span>       <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    `resource_id`    <span class="type">VARCHAR</span>(<span class="number">256</span>),</span><br><span class="line">    `table_name`     <span class="type">VARCHAR</span>(<span class="number">32</span>),</span><br><span class="line">    `pk`             <span class="type">VARCHAR</span>(<span class="number">36</span>),</span><br><span class="line">    `gmt_create`     DATETIME,</span><br><span class="line">    `gmt_modified`   DATETIME,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY (`row_key`),</span><br><span class="line">    KEY `idx_branch_id` (`branch_id`)</span><br><span class="line">) ENGINE <span class="operator">=</span> InnoDB</span><br><span class="line">  <span class="keyword">DEFAULT</span> CHARSET <span class="operator">=</span> utf8;</span><br></pre></td></tr></table></figure>
 
 
-
-
-
-<p>执行docker-compose –version检查下</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210609170413745.png" alt="image-20210609170413745"></p>
-<p>执行docker-compose<br><code>docker-compose -f docker-compose-env.yml up –d</code></p>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sh seata-server.sh -h 121.62.135.124 &amp;</span><br></pre></td></tr></table></figure>
+<p>查看nocos注册成功</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210804135421838.png" alt="image-20210804135421838"></p>
+<p>可以去看一下 conf/README.md 里面有需要的sql以及conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># Script Description</span><br><span class="line"></span><br><span class="line">## [client](https://github.com/seata/seata/tree/develop/script/client)</span><br><span class="line"></span><br><span class="line">&gt; Store configuration and SQL for client side</span><br><span class="line"></span><br><span class="line">- at: Script of create table `undo_log` for AT mode.</span><br><span class="line">- conf: Configuration which client need.</span><br><span class="line">- saga: Script of create table in SAGA mode</span><br><span class="line">- spring: Configuration for Spring Boot</span><br><span class="line"></span><br><span class="line">## [server](https://github.com/seata/seata/tree/develop/script/server)</span><br><span class="line"></span><br><span class="line">&gt; Store SQL and deploy script for server side</span><br><span class="line"></span><br><span class="line">- db: Create table script for server when store mode is `db`</span><br><span class="line">- docker-compose: Script for deploy server by docker-compose</span><br><span class="line">- helm: Script for deploy server by Helm</span><br><span class="line">- kubernetes: Script for deploy server by Kubernetes</span><br><span class="line"></span><br><span class="line">## [config-center](https://github.com/seata/seata/tree/develop/script/config-center)</span><br><span class="line"></span><br><span class="line">&gt; Store initialize script for configuration center, will use `config.txt` as configuration when initial</span><br><span class="line"></span><br><span class="line">- nacos: Initialize script for Nacos</span><br><span class="line">- zk: Initialize script for ZooKeeper, the script need related script in Zookeeper, you need download yourself. You can modify `zk-params.txt` to change the ZooKeeper server configuration, or input when execute also</span><br><span class="line">- apollo: Initialize script for Apollo. You can modify `apollo-params.txt` to change the Apollo server configuration, or input when execute also</span><br><span class="line">- etcd3: Initialize script for Etcd3</span><br><span class="line">- consul: Initialize script for consul</span><br><span class="line"></span><br></pre></td></tr></table></figure>
                 
 
                 <hr>
@@ -288,12 +286,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/06/17/docker开启新的端口/" data-toggle="tooltip" data-placement="top" title="docker开启新的端口">&larr; Previous post</a>
+                            <a href="/2021/08/06/spring-profile-active配合maven使用/" data-toggle="tooltip" data-placement="top" title="spring.profile.active配合maven使用">&larr; Previous post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2021/06/09/docker安装及常用命令/" data-toggle="tooltip" data-placement="top" title="docker安装及常用命令">Next post &rarr;</a>
+                            <a href="/2021/07/05/树莓派设置无线密码/" data-toggle="tooltip" data-placement="top" title="树莓派设置无线密码">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -343,7 +341,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                          <a class="tag" href="/tags/#seata" title="seata">seata</a>
                         
                     </div>
                 </section>
@@ -518,7 +516,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/09/dockerCompose%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/08/04/seata%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},

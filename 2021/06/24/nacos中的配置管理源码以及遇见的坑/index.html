@@ -284,12 +284,15 @@
 <p>再回到源码，看看nacos是怎么调用的。再调用上面三个方法之前。还有一系列步骤。这边可以看到网上所说的怎么去配置dataId。具体代码逻辑自己看下吧，很简单。</p>
 <p>​    <strong>${prefix}-${spring.profile.active}.${file-extension}</strong></p>
 <ul>
-<li><strong>prefix 默认为 spring.application.name 的值，也可以通过配置项 spring.cloud.nacos.config.prefix来配置。</strong></li>
-<li><strong>spring.profile.active 即为当前环境对应的 profile，详情可以参考 Spring Boot文档。 注意：当 spring.profile.active 为空时，对应的连接符 - 也将不存在，dataId 的拼接格式变成 ${prefix}.${file-extension}</strong></li>
-<li><strong>file-exetension 为配置内容的数据格式，可以通过配置项 spring.cloud.nacos.config.file-extension 来配置。目前只支持 properties 和 yaml 类型</strong></li>
+<li><p><strong>prefix 默认为 spring.application.name 的值，也可以通过配置项 spring.cloud.nacos.config.prefix来配置。</strong></p>
+</li>
+<li><p><strong>spring.profile.active 即为当前环境对应的 profile，详情可以参考 Spring Boot文档。 注意：当 spring.profile.active 为空时，对应的连接符 - 也将不存在，dataId 的拼接格式变成 ${prefix}.${file-extension}</strong></p>
+</li>
+<li><p><strong>file-exetension 为配置内容的数据格式，可以通过配置项 spring.cloud.nacos.config.file-extension 来配置。目前只支持 properties 和 yaml 类型</strong></p>
+</li>
 </ul>
 <p>上面三个方法其实底层还是调用 loadNacosDataIfPresent()。以loadApplicationConfiguration为例</p>
-<p><img src="C:\Users\ruantianbo\AppData\Roaming\Typora\typora-user-images\image-20210624173905586.png" alt="image-20210624173905586"></p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210624173905586.png" alt="image-20210624173905586"></p>
 <p>这可以看到他会请求多次，一个是dataIdPrefix ，一个是dataIdPrefix.fileExtension，还有一个加上profile的。</p>
 <p>所以如果你再spring中配置了 applicaiton 这个nacos的配置文件，他会去向nacos去请求 application和 applicaiton.properties</p>
 <p>和 applicaiton-dev.properties （如果你没有配置fileExtension那么默认是请求properties）而且后面的配置会覆盖前面的配置项。</p>
@@ -314,6 +317,10 @@
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2021/06/24/好的blog分享/" data-toggle="tooltip" data-placement="top" title="好的blog分享">&larr; Previous post</a>
+                        </li>
                     
                     
                         <li class="next">

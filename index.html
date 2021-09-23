@@ -268,6 +268,266 @@
 
 
 <div class="w3-row-padding">
+	<a href="/2021/09/22/nexus创建公司私有仓库/">
+        <h2 class="post-title">
+            nexus创建公司私有仓库
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/09/22/nexus创建公司私有仓库/">
+
+        <div class="post-content-preview">
+            主要参考这篇文章https://www.hangge.com/blog/cache/detail_2844.html
+nexus安装和配置首先从 https://www.sonatype.com/products/repository-oss 下载 nexuslinux 下执行
+1tar -xvf nexus-3.34.0-01-unix.tar.gz -C ../software/
+.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-09-22
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/08/24/java8函数式编程/">
+        <h2 class="post-title">
+            java8函数式编程
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/08/24/java8函数式编程/">
+
+        <div class="post-content-preview">
+            如果java8 之前要开启一个线程你可能需要
+1234567new Thread(new Runnable()&#123;	@Overide	public void run()&#123;			xxxxx	&#125;&#125;)
+
+这样很大部分其实都是模板。跟业务逻辑没啥关系。java8 就引入了lamda表达式要记住一点。lamda表达式要关注他的输入以及输出。
+12345678.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-08-24
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/08/06/spring-profile-active配合maven使用/">
+        <h2 class="post-title">
+            spring.profile.active配合maven使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/08/06/spring-profile-active配合maven使用/">
+
+        <div class="post-content-preview">
+            多环境下可能本地使用的是dev环境，线上打包需要用prod环境因此可以通过spring.profiles.active 去配置
+pom.xml
+1234567891011121314151617181920212223&lt;profiles&gt;    &lt;!-- 本地环境 --&gt;    &lt;profile&gt;        &lt;id&gt;dev&lt;/i.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-08-06
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/08/04/seata初次使用/">
+        <h2 class="post-title">
+            seata初次使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/08/04/seata初次使用/">
+
+        <div class="post-content-preview">
+            先去下载https://github.com/seata/seata/releases
+修改conf/store.conf
+
+修改 注册中心
+
+创建表https://raw.githubusercontent.com/seata/seata/develop/script/server/db/mysql.sql
+12345678910111213141516171819202122232.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-08-04
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/07/05/树莓派设置无线密码/">
+        <h2 class="post-title">
+            树莓派设置无线密码
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/07/05/树莓派设置无线密码/">
+
+        <div class="post-content-preview">
+            今天发现树莓派爱好者有一个64位的系统，树莓派4B，CPU是支持64位的，所以最好给他装一个64位，但官方64位系统有点记录。树莓派爱好者论坛看简介应该有很大提升具体可以参照https://blog.csdn.net/boling_cavalry/article/details/100594275去设置，就是去烧录 https://github.com/openfans-communi.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-07-05
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/07/01/Calendar日历中Calendar-WEEK-OF-YEAR问题/">
+        <h2 class="post-title">
+            Calendar日历中Calendar.WEEK_OF_YEAR问题
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/07/01/Calendar日历中Calendar-WEEK-OF-YEAR问题/">
+
+        <div class="post-content-preview">
+            今天有个需求是获取当前时间是第几期。类似的就是2021-1-28 是2021-4 表示2021年的第四期。看着很简单的一个问题。但是对边界考虑有点问题。首先2020-12-28 到 2021-01-03 是在同一周。根据需求应该算在2020-52
+然后查阅到 Calendar.get(Calendar.WEEK_OF_YEAR)  还有个 setMinimalDaysInFirstWe.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-07-01
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/06/25/nacos配置文件以及自动刷新/">
+        <h2 class="post-title">
+            nacos配置文件以及自动刷新
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/06/25/nacos配置文件以及自动刷新/">
+
+        <div class="post-content-preview">
+            Nacos可以作为Naming Service 还有一个功能是作为配置中心。用于管理配置。具体配置可以参考还有一篇blog而且Nacos还支持自动刷新。首先要再bootstrap.yml 中配置是否自动刷新，针对共享配置和拓展配置。需要手动配置好refresh
+
+然后再配置Config类。需要再上面配置好 @ConfigurationProperties @RefreshScope @.........
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-06-25
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
+	<a href="/2021/06/24/好的blog分享/">
+        <h2 class="post-title">
+            好的blog分享
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+	</a>
+
+<div>
+
+    <a href="/2021/06/24/好的blog分享/">
+
+        <div class="post-content-preview">
+            Nacos 配置中心原理分析https://www.jianshu.com/p/38b5452c9fecNacos 配置实时更新原理分析https://www.jianshu.com/p/acb9b1093a54
+Nacos 配置中心原理分析 - 吴振照 - 博客园 (cnblogs.com)
+...
+        </div>
+    </a>
+    
+        <p class="post-meta">
+            Posted by John Doe on
+            2021-06-24
+        </p>
+    
+
+</div>
+</div>
+<hr>
+
+
+<div class="w3-row-padding">
 	<a href="/2021/06/24/nacos中的配置管理源码以及遇见的坑/">
         <h2 class="post-title">
             nacos中的配置管理源码以及遇见的坑
@@ -330,236 +590,15 @@
 <hr>
 
 
-<div class="w3-row-padding">
-	<a href="/2021/06/22/maven下载源码/">
-        <h2 class="post-title">
-            maven下载源码
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/22/maven下载源码/">
-
-        <div class="post-content-preview">
-            再项目目录下执行mvn dependency:resolve -Dclassifier=sources然后idea再点击 download sourcecode
-...
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-22
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/06/18/从零开始用springcloud-alibaba-一/">
-        <h2 class="post-title">
-            从零开始用springcloud alibaba(一)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/18/从零开始用springcloud-alibaba-一/">
-
-        <div class="post-content-preview">
-            首先非常建议阅读spring官网的文档，写的非常清楚明白https://spring-cloud-alibaba-group.github.io/github-pages/hoxton/en-us/index.html#_nacos_server_startup
-然后教程也基本根据上面一步步操作来整理的。
-微服务架构首先都是去服务注册，启动nacos，这个可以参考nacos官网文档。
-.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-18
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/06/18/alibaba/">
-        <h2 class="post-title">
-            alibaba
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/18/alibaba/">
-
-        <div class="post-content-preview">
-            ...
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-18
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/06/17/docker开启新的端口/">
-        <h2 class="post-title">
-            docker开启新的端口
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/17/docker开启新的端口/">
-
-        <div class="post-content-preview">
-            刚开始用nginx去做代理，运行时又突然要开放另外一个端口。去映射另外一个服务这个就需要对原有容器映射新的端口
-首先停止容器然后再关闭docker服务
-123docker port 18a # 查看原来已开启的端口docker stop 18asystemctl stop docker
-
-然后到主机，/var/lib/docker/containers/18axxxx/ 这个目录下面，.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-17
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/06/09/dockerCompose使用/">
-        <h2 class="post-title">
-            dockerCompose使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/09/dockerCompose使用/">
-
-        <div class="post-content-preview">
-            什么是dockerCompose感觉类似于java中的maven自动编译工具，吧你需要的服务下载下来并启动
-首先是安装
-sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/loc.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-09
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/06/09/docker安装及常用命令/">
-        <h2 class="post-title">
-            docker安装及常用命令
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/09/docker安装及常用命令/">
-
-        <div class="post-content-preview">
-            首先是安装，自己是Centos。国内执行安装docker
-curl -sSL https://get.daocloud.io/docker | sh
-修改为阿里云国内仓库
-vim /etc/docker/daemon.json
-添加
- &#123;&quot;registry-mirrors&quot;:[&quot;https://n44s3r.mirror.aliyuncs.com.........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-09
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
-<div class="w3-row-padding">
-	<a href="/2021/06/08/hello-world/">
-        <h2 class="post-title">
-            Hello World
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-	</a>
-
-<div>
-
-    <a href="/2021/06/08/hello-world/">
-
-        <div class="post-content-preview">
-            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub..........
-        </div>
-    </a>
-    
-        <p class="post-meta">
-            Posted by John Doe on
-            2021-06-08
-        </p>
-    
-
-</div>
-</div>
-<hr>
-
-
 
 <!-- Pager -->
 
 <ul class="pager">
     
+    
+        <li class="next">
+            <a href="/page/2/">Older Posts &rarr;</a>
+        </li>
     
 </ul>
 
@@ -606,6 +645,38 @@ vim /etc/docker/daemon.json
         
             
             <a href="/tags/#spring cloud alibaba" title="spring cloud alibaba" rel="1">spring cloud alibaba</a>
+            
+        
+            
+            <a href="/tags/#Calendar" title="Calendar" rel="1">Calendar</a>
+            
+        
+            
+            <a href="/tags/#函数式编程" title="函数式编程" rel="1">函数式编程</a>
+            
+        
+            
+            <a href="/tags/#nacos config" title="nacos config" rel="1">nacos config</a>
+            
+        
+            
+            <a href="/tags/#nexus,maven" title="nexus,maven" rel="1">nexus,maven</a>
+            
+        
+            
+            <a href="/tags/#seata" title="seata" rel="1">seata</a>
+            
+        
+            
+            <a href="/tags/#spring.profile.active" title="spring.profile.active" rel="1">spring.profile.active</a>
+            
+        
+            
+            <a href="/tags/#博客分享" title="博客分享" rel="1">博客分享</a>
+            
+        
+            
+            <a href="/tags/#树莓派" title="树莓派" rel="1">树莓派</a>
             
         
     </div>
@@ -661,23 +732,23 @@ vim /etc/docker/daemon.json
     <ul>
       
         <li>
-          <a href="/2021/06/24/nacos%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E6%BA%90%E7%A0%81%E4%BB%A5%E5%8F%8A%E9%81%87%E8%A7%81%E7%9A%84%E5%9D%91/">nacos中的配置管理源码以及遇见的坑</a>
+          <a href="/2021/09/22/nexus%E5%88%9B%E5%BB%BA%E5%85%AC%E5%8F%B8%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/">nexus创建公司私有仓库</a>
         </li>
       
         <li>
-          <a href="/2021/06/24/spring%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%BA%90PropertySource/">spring中自定义配置源PropertySource</a>
+          <a href="/2021/08/24/java8%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">java8函数式编程</a>
         </li>
       
         <li>
-          <a href="/2021/06/22/maven%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81/">maven下载源码</a>
+          <a href="/2021/08/06/spring-profile-active%E9%85%8D%E5%90%88maven%E4%BD%BF%E7%94%A8/">spring.profile.active配合maven使用</a>
         </li>
       
         <li>
-          <a href="/2021/06/18/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%94%A8springcloud-alibaba-%E4%B8%80/">从零开始用springcloud alibaba(一)</a>
+          <a href="/2021/08/04/seata%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8/">seata初次使用</a>
         </li>
       
         <li>
-          <a href="/2021/06/18/alibaba/">alibaba</a>
+          <a href="/2021/07/05/%E6%A0%91%E8%8E%93%E6%B4%BE%E8%AE%BE%E7%BD%AE%E6%97%A0%E7%BA%BF%E5%AF%86%E7%A0%81/">树莓派设置无线密码</a>
         </li>
       
     </ul>
@@ -688,7 +759,7 @@ vim /etc/docker/daemon.json
         
     <h5>Achives</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">11</span></li></ul>
     </div>
 
         <hr>

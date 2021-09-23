@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          dockerCompose使用 - null
+          nacos配置文件以及自动刷新 - null
         
     </title>
 
-    <link rel="canonical" href="http://example.com/2021/06/09/dockerCompose使用/">
+    <link rel="canonical" href="http://example.com/2021/06/25/nacos配置文件以及自动刷新/">
 
     <!-- Bootstrap Core CSS -->
 
@@ -122,14 +122,14 @@
                     <div class="post-heading" style="padding:40px">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                              <a class="tag" href="/tags/#nacos config" title="nacos config">nacos config</a>
                             
                         </div>
-                        <h1>dockerCompose使用</h1>
+                        <h1>nacos配置文件以及自动刷新</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by John Doe on
-                            2021-06-09
+                            2021-06-25
                         </span>
                     </div>
                 
@@ -265,21 +265,11 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>什么是dockerCompose感觉类似于java中的maven自动编译工具，吧你需要的服务下载下来并启动</p>
-<p>首先是安装</p>
-<p><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</code></p>
-<p>其中的1.29.1 按照自己的需求去改</p>
-<p>设置可执行权限并添加软连接</p>
-<p><code>sudo chmod +x /usr/local/bin/docker-compose</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>执行docker-compose –version检查下</p>
-<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210609170413745.png" alt="image-20210609170413745"></p>
-<p>执行docker-compose<br><code>docker-compose -f docker-compose-env.yml up –d</code></p>
+                <p>Nacos可以作为Naming Service 还有一个功能是作为配置中心。用于管理配置。具体配置可以参考还有一篇blog<br>而且Nacos还支持自动刷新。<br>首先要再bootstrap.yml 中配置是否自动刷新，针对共享配置和拓展配置。需要手动配置好refresh</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210625132020309.png" alt="image-20210625132020309"></p>
+<p>然后再配置Config类。需要再上面配置好 @ConfigurationProperties @RefreshScope @Component, 其中的@Data是lombok的注解</p>
+<p><img src="https://gitee.com/ruantianbo/picgo_rtb/raw/master/img/image-20210625132131996.png" alt="image-20210625132131996"></p>
+<p>在Controller中@Autowire 该配置项就可以使用其中的配置项。如果nacos改了配置，那么AppInstranction就会重新加载配置项。</p>
 
                 
 
@@ -288,12 +278,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/06/17/docker开启新的端口/" data-toggle="tooltip" data-placement="top" title="docker开启新的端口">&larr; Previous post</a>
+                            <a href="/2021/07/01/Calendar日历中Calendar-WEEK-OF-YEAR问题/" data-toggle="tooltip" data-placement="top" title="Calendar日历中Calendar.WEEK_OF_YEAR问题">&larr; Previous post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2021/06/09/docker安装及常用命令/" data-toggle="tooltip" data-placement="top" title="docker安装及常用命令">Next post &rarr;</a>
+                            <a href="/2021/06/24/好的blog分享/" data-toggle="tooltip" data-placement="top" title="好的blog分享">Next post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -343,7 +333,7 @@
                     <h5><a href="/tags/">Tags</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#dockerCompose" title="dockerCompose">dockerCompose</a>
+                          <a class="tag" href="/tags/#nacos config" title="nacos config">nacos config</a>
                         
                     </div>
                 </section>
@@ -518,7 +508,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("http://example.com/2021/06/09/dockerCompose%E4%BD%BF%E7%94%A8/index.html/js/jquery.tagcloud.js",function(){
+        async("http://example.com/2021/06/25/nacos%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%8A%A8%E5%88%B7%E6%96%B0/index.html/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
